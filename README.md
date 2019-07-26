@@ -163,4 +163,11 @@ onCompleted: { print("Completed") },
 onDisposed: { print("Disposed") }
 )
 .disposed(by: disposeBag)
+/*
+// result
+R2-D2
+Error: OU812
+Disposed
+
+*/
 ```
