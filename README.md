@@ -171,3 +171,110 @@ Disposed
 
 */
 ```
+#RxSwift traits
+- Swift has a powerful type system that can be used to improve the correctness and stability of applications and make using Rx a more intuitive and straightforward experience.
+
+##Single
+
+- A Single is a variation of Observable that, instead of emitting a series of elements, is always guaranteed to emit either a single element or an error.
+- Emits exactly one element, or an error.
+- One common use case for using Single is for performing HTTP Requests that could only return a response or an error, but a Single can be used to model any case where you only care for a single element, and not for an infinite stream of elements.
+```swift
+func getRepo(_ repo: String) -> Single<[String: Any]> {
+return Single<[String: Any]>.create { single in
+let task = URLSession.shared.dataTask(with: URL(string: "https://api.github.com/repos/\(repo)")!) { data, _, error in
+if let error = error {
+single(.error(error))
+return
+}
+
+guard let data = data,
+let json = try? JSONSerialization.jsonObject(with: data, options: .mutableLeaves),
+let result = json as? [String: Any] else {
+single(.error(DataError.cantParseJSON))
+return
+}
+
+single(.success(result))
+}
+
+task.resume()
+
+return Disposables.create { task.cancel() }
+}
+}
+
+
+getRepo("ReactiveX/RxSwift")
+.subscribe(onSuccess: { json in
+print("JSON: ", json)
+},
+onError: { error in
+print("Error: ", error)
+})
+.disposed(by: disposeBag)
+```
+## Completable
+
+ - A Completable is a variation of Observable that can only complete or emit an error. It is guaranteed to not emit any elements.
+
+- Emits zero elements.
+- Emits a completion event, or an error.
+```swift
+cacheLocally()
+.subscribe { completable in
+switch completable {
+case .completed:
+print("Completed with no error")
+case .error(let error):
+print("Completed with an error: \(error.localizedDescription)")
+}
+}
+.disposed(by: disposeBag)
+
+cacheLocally()
+.subscribe(onCompleted: {
+print("Completed with no error")
+},
+onError: { error in
+print("Completed with an error: \(error.localizedDescription)")
+})
+.disposed(by: disposeBag)
+```
+##  Maybe
+
+A Maybe is a variation of Observable that is right in between a Single and a Completable. It can either emit a single element, complete without emitting an element, or emit an error.
+
+Note: Any of these three events would terminate the Maybe, meaning - a Maybe that completed can't also emit an element, and a Maybe that emitted an element can't also send a Completion event.
+
+- Emits either a completed event, a single element or an error.
+
+- You could use Maybe to model any operation that could emit an element, but doesn't necessarily have to emit an element.
+```swift
+func generateString() -> Maybe<String> {
+return Maybe<String>.create { maybe in
+maybe(.success("RxSwift"))
+
+// OR
+
+maybe(.completed)
+
+// OR
+
+maybe(.error(error))
+
+return Disposables.create {}
+}
+}
+generateString()
+.subscribe(onSuccess: { element in
+print("Completed with element \(element)")
+},
+onError: { error in
+print("Completed with an error \(error.localizedDescription)")
+},
+onCompleted: {
+print("Completed with no element")
+})
+.disposed(by: disposeBag)
+```
