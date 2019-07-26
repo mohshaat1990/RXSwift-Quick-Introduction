@@ -171,10 +171,10 @@ Disposed
 
 */
 ```
-#RxSwift traits
+# RxSwift traits
 - Swift has a powerful type system that can be used to improve the correctness and stability of applications and make using Rx a more intuitive and straightforward experience.
 
-##Single
+## Single
 
 - A Single is a variation of Observable that, instead of emitting a series of elements, is always guaranteed to emit either a single element or an error.
 - Emits exactly one element, or an error.
