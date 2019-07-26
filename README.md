@@ -293,3 +293,28 @@ print("Completed with no element")
 })
 .disposed(by: disposeBag)
 ```
+# Side Effects using do 
+
+```swift
+let observable = Observable<Any>.never()
+let disposeBag = DisposeBag()
+observable
+.do(
+onSubscribe: {
+print("About to subscribe")
+},
+onDispose: {
+print("Disposed")
+})
+.subscribe(
+onNext: { element in
+print(element)
+},
+onCompleted: {
+print("Completed")
+},
+onDisposed: {
+print("Disposed")
+})
+.disposed(by: disposeBag)
+```
