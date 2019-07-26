@@ -36,3 +36,28 @@
    - observable is terminated 
 
 ![Screen Shot 2019-07-26 at 7 08 37 PM](https://user-images.githubusercontent.com/11280137/61968647-d867f880-afd8-11e9-8b2a-b81d0b566d2c.png)
+
+### Pod Installation 
+
+```swift
+pod 'RxSwift', '~> 4.0'
+```
+- use it in any view Controller 
+
+```swift
+import RxSwift
+```
+
+### Creating Observables 
+
+```swift
+let episodev = "episodev"
+let episodevI = "episodevI"
+let episodevII = "episodevII"
+
+let mostPopualr: Observable<String> =
+Observable<String>.just(episodev)
+let originalTrilogy = Observable.of(episodev,episodevI,episodevII)
+let PurelTrilogy = Observable.of([episodev,episodevI,episodevII])
+let sequeltrilogy = Observable.from([episodev,episodevI,episodevII])
+```
