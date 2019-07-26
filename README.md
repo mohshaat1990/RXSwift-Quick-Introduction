@@ -221,6 +221,21 @@ print("Error: ", error)
 - Emits zero elements.
 - Emits a completion event, or an error.
 ```swift
+func cacheLocally() -> Completable {
+return Completable.create { completable in
+// Store some data locally
+...
+...
+
+guard success else {
+completable(.error(CacheError.failedCaching))
+return Disposables.create {}
+}
+
+completable(.completed)
+return Disposables.create {}
+}
+}
 cacheLocally()
 .subscribe { completable in
 switch completable {
