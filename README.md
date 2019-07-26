@@ -35,8 +35,6 @@
 - completed 
    - observable is terminated 
 
-![Screen Shot 2019-07-26 at 7 08 37 PM](https://user-images.githubusercontent.com/11280137/61968647-d867f880-afd8-11e9-8b2a-b81d0b566d2c.png)
-
 ### Pod Installation 
 
 ```swift
@@ -139,4 +137,30 @@ let disposeBag = DisposeBag()
 let subscribtion = observable.subscribe(onNext:{element in
 print(element)
 }).disposed(by: disposeBag)
+```
+## Create Observable 
+
+```swift
+let disposeBag = DisposeBag()
+
+enum Droid: Error {
+case OU812
+}
+
+Observable<String>.create { observer in
+observer.onNext("R2-D2")
+observer.onError(Droid.OU812)
+observer.onNext("C-3PO")
+observer.onNext("K-2SO")
+//    observer.onCompleted()
+
+return Disposables.create()
+}
+.subscribe(
+onNext: { print($0) },
+onError: { print("Error:", $0) },
+onCompleted: { print("Completed") },
+onDisposed: { print("Disposed") }
+)
+.disposed(by: disposeBag)
 ```
