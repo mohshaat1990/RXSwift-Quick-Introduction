@@ -61,3 +61,82 @@ let originalTrilogy = Observable.of(episodev,episodevI,episodevII)
 let PurelTrilogy = Observable.of([episodev,episodevI,episodevII])
 let sequeltrilogy = Observable.from([episodev,episodevI,episodevII])
 ```
+### Subscribe to Observable 
+```swift
+let observable = Observable.of(episodev,episodevI,episodevII)
+
+observable.subscribe{ event in
+print(event)
+}
+```
+### result will be 
+
+```swift
+next(episodev)
+next(episodevI)
+next(episodevII)
+completed
+```
+```swift
+observable.subscribe{ event in
+print(event.element ?? "")
+}
+```
+### result will be 
+```swift
+episodev
+episodevI
+episodevII
+```
+## handle On Next Only 
+```swift
+observable.subscribe(onNext:{element in
+print(element)
+})
+```
+### result will be 
+```swift
+episodev
+episodevI
+episodevII
+```
+## handle On Completed Only 
+```swift
+let observableCompleted = Observable<Void>.empty()
+observableCompleted.subscribe(onNext: {element in
+print(element)
+},onCompleted: {
+print("Completed")
+})
+// will print Completed
+```
+## will Never Completed 
+```swift
+let observableNever = Observable<Void>.never()
+observableNever.subscribe(onNext: {element in
+print(element)
+},onCompleted: {
+print("Completed")
+})
+```
+## to Cancel Subscribtion 
+-  you should ensure to cancel subscribtion to avoid lake of memory in this case not appear because events completed 
+```swift 
+let subscribtion = observable.subscribe(onNext:{element in
+print(element)
+})
+subscribtion.dispose()
+```
+### using DisposeBag
+
+- DisposeBag calls dispose when it's own deinit is called. It means when DisposeBag loses a reference from UIViewController its retainCount goes to 0 so it will be deallocated and it will call dispose on all the disposables
+- this pattern that will be used 
+  - create observable
+  - subscribe to it
+  - add it to disposeBag
+```swift 
+let disposeBag = DisposeBag()
+let subscribtion = observable.subscribe(onNext:{element in
+print(element)
+}).disposed(by: disposeBag)
+```
