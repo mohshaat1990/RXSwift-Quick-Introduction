@@ -426,3 +426,219 @@ next(0)
 completed
 */
 ```
+# Filtering Operators
+- emit only those items from an Observable that pass a predicate test
+![Screen Shot 2019-07-27 at 12 23 23 PM](https://user-images.githubusercontent.com/11280137/61997231-dd8f7b00-b09e-11e9-9c45-4e86852be2fb.png)
+- The Filter operator filters an Observable by only allowing items through that pass a test that you specify in the form of a predicate function.
+
+### Ignore Elements  Filters
+  - ignoreElements will ignore .next event elements. It will, however, allow through stop events, i.e., .completed or .error events. It is useful when you only want to be notified when an observable has terminated, via a .completed or .error event
+  ```swift
+  let strikes = PublishSubject<String>()
+  
+  let disposeBag = DisposeBag()
+  
+  strikes
+  .ignoreElements()
+  .subscribe { _ in
+  print("You're out!")
+  }
+  .addDisposableTo(disposeBag)
+  
+  strikes.onNext("X")
+  strikes.onNext("X")
+  strikes.onNext("X")
+  strikes.onCompleted()
+  /*
+  // result completed only will print
+    You're out!
+  */
+```
+### elementAt  Filters
+- elementAt takes the index of the element you want to receive, and it ignores everything else.
+```swift
+let strikes = PublishSubject<String>()
+
+let disposeBag = DisposeBag()
+strikes
+.elementAt(2)
+.subscribe(onNext: { elements in
+print(elements)
+})
+.addDisposableTo(disposeBag)
+
+strikes.onNext("X0")
+strikes.onNext("X1")
+strikes.onNext("X2")
+/*
+// result completed only will print
+ X2
+*/
+```
+### filter 
+- emit only those items that pass a predicate test 
+
+```swift
+let disposeBag = DisposeBag()
+
+Observable.of(1, 2, 3, 4, 5, 6)
+.filter { integer in
+integer % 2 == 0
+}
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+2
+4
+6
+*/
+```
+### Skipping operators 
+- The skip operator allows you to ignore from the 1st to the number you pass as its parameter
+
+```swift
+let disposeBag = DisposeBag()
+
+Observable.of("A", "B", "C", "D", "E", "F")
+.skip(1)
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+B
+C
+D
+E
+F
+*/
+```
+### skipWhile
+- discard items until a specified condition becomes false
+```swift
+let disposeBag = DisposeBag()
+Observable.of(2, 4, 3, 2, 4)
+.skipWhile { integer in
+integer % 2 == 0
+}
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+3
+2
+4
+*/
+```
+###  skipUntil
+- discard items until a second Observable emits an item
+```swift
+let disposeBag = DisposeBag()
+
+let subject = PublishSubject<String>()
+let trigger = PublishSubject<String>()
+subject
+.skipUntil(trigger)
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+
+subject.onNext("A")
+subject.onNext("B")
+
+trigger.onNext("X")
+subject.onNext("C")
+/*
+// result completed only will print
+C
+*/
+```
+###  Taking operators
+- take emit only the first n items
+```swift
+let disposeBag = DisposeBag()
+
+Observable.of(1, 2, 3, 4, 5, 6)
+.take(3)
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+1
+2
+3
+*/
+```
+###  takeWhileWithIndex
+- mirror items until a specified condition becomes false
+```swift
+let disposeBag = DisposeBag()
+
+Observable.of(2, 2, 4, 4, 6, 6)
+.takeWhileWithIndex { integer, index in
+integer % 2 == 0 && index < 3
+}
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+2
+2
+4
+*/
+```
+###  takeUntil
+- discard any items after a second Observable emits an item or terminates
+```swift
+let disposeBag = DisposeBag()
+
+let subject = PublishSubject<String>()
+let trigger = PublishSubject<String>()
+
+subject
+.takeUntil(trigger)
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+
+subject.onNext("1")
+subject.onNext("2")
+
+trigger.onNext("X")
+subject.onNext("3")
+/*
+// result completed only will print
+1
+2
+*/
+```
+###  Distinct operators
+- distinctUntilChanged prevents duplicates that are right next to each other
+```swift
+let disposeBag = DisposeBag()
+
+Observable.of("A", "A", "B", "B", "A")
+.distinctUntilChanged()
+.subscribe(onNext: {
+print($0)
+})
+.addDisposableTo(disposeBag)
+/*
+// result completed only will print
+A
+B
+A
+*/
+```
