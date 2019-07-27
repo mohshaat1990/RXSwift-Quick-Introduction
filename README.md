@@ -318,3 +318,111 @@ print("Disposed")
 })
 .disposed(by: disposeBag)
 ```
+# Subject
+
+- A Subject is a sort of bridge or proxy that is available in some implementations of ReactiveX that acts both as an observer and as an Observable. Because it is an observer, it can subscribe to one or more Observables, and because it is an Observable, it can pass through the items it observes by reemitting them, and it can also emit new items.
+- subjects can be both Observable (can be subscribed to), observer(add new elements)
+
+###Subject Types
+  1- Publish Subject
+  2- Behavior Subject
+  3- Reply Subject
+  4- Variable
+
+#### Publish Subject
+
+  - Start Empty
+  - Emits new next events o new subscribers
+  - any events added to publish subjects before a Subscribe subscribes not be recieved by subscribers
+  
+ ![Screen Shot 2019-07-27 at 12 23 23 PM](https://user-images.githubusercontent.com/11280137/61993273-64296580-b069-11e9-941e-c21ba82b58a8.png)
+```swift
+let quotes = PublishSubject<String>()
+quotes.onNext("1")
+let subscribtion = quotes.subscribe { element in
+print(element)
+}
+
+quotes.onNext("2")
+quotes.onNext("3")
+quotes.onNext("4")
+/*
+next(2)
+next(3)
+next(4)
+*/
+```
+#### Behavior Subject
+
+- Start with initial Value
+- Reply initial / last value to new subscribers
+- example when you developing user login screen you might initial text field with last loged in userName
+
+![Screen Shot 2019-07-27 at 12 42 42 PM](https://user-images.githubusercontent.com/11280137/61993428-09453d80-b06c-11e9-9161-e6c455298962.png)
+```swift
+let quotes = BehaviorSubject<String>(value: "0")
+//quotes.onNext("1") 
+let subscribtion = quotes.subscribe { element in
+print(element)
+}
+quotes.onNext("2")
+quotes.onNext("3")
+quotes.onNext("4")
+/*
+next(0)
+//next(1)
+next(2)
+next(3)
+next(4)
+*/
+```
+#### Reply Subject
+
+- Starts Empty with a buffer size
+- Reply buffer to new subscribers
+
+![Screen Shot 2019-07-27 at 1 13 31 PM](https://user-images.githubusercontent.com/11280137/61993734-575c4000-b070-11e9-874e-f6e9b1bd8161.png)
+
+```swift
+let quotes = ReplaySubject<String>.create(bufferSize: 2)
+quotes.onNext("0")
+quotes.onNext("1")
+quotes.onNext("2")
+let subscribtion = quotes.subscribe { element in
+print(element)
+}
+
+quotes.onNext("3")
+quotes.onNext("4")
+quotes.onNext("5")
+/*
+// next(0) will not print because buffer size 2
+next(1)
+next(2)
+next(3)
+next(4)
+next(5)
+*/
+```
+### Variable Subject 
+- wraps abehaviorSubject
+- Starts with initial Value
+- Reply initial / latest value to new subsribers 
+- Guaranteed not to fil (cannot emit error events)
+- automatically completes (you dont add completely as other subject)
+- stateful(stores last value to access any time)
+
+```swift
+let disposeBag = DisposeBag()
+let quotes = BehaviorSubject<String>(value: "0")
+let variable = Variable(quotes)
+print(variable.value)
+variable.asObservable().subscribe{
+print($0)
+}.disposed(by: disposeBag)
+
+/*
+next(0)
+completed
+*/
+```
