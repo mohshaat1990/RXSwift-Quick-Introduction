@@ -428,7 +428,7 @@ completed
 ```
 # Filtering Operators
 - emit only those items from an Observable that pass a predicate test
-![Screen Shot 2019-07-27 at 12 23 23 PM](https://user-images.githubusercontent.com/11280137/61997231-dd8f7b00-b09e-11e9-9c45-4e86852be2fb.png)
+![Screen Shot 2019-07-27 at 12 23 23 PM](https://user-images.githubusercontent.com/11280137/61997597-0fefa700-b0a4-11e9-864a-dc64e24c7b1d.png)
 - The Filter operator filters an Observable by only allowing items through that pass a test that you specify in the form of a predicate function.
 
 ### Ignore Elements  Filters
