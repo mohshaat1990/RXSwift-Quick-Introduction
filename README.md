@@ -60,7 +60,10 @@ pod 'RxSwift', '~> 4.0'
 import RxSwift
 ```
 
+
 ### Creating Observables 
+
+<img width="518" alt="Screen Shot 2020-10-13 at 1 21 01 PM" src="https://user-images.githubusercontent.com/11280137/95854251-f729ea80-0d56-11eb-8c0a-b339bba853d7.png">
 
 ```swift
 let episodev = "episodev"
