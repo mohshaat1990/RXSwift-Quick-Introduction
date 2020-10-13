@@ -15,6 +15,19 @@
 - what RXSWIFt enables you to do is right asynchronous code that is way more streamlined and easier to follow than using the various patterns and apis you may be used to using from the iOS SDk
 - Ascynchroncity like Buttons taps,Keyboard animations,Downloading data,Processing images,Writing to disk,Playing audio/video
 - IOS Sdk Apis do the same as RXSwift Notification Center, KVO/KVC,GCD and OperationQueue, Closures, Target Action , Delegation
+
+```
+@objc class Person: NSObject {
+    @objc  dynamic var name = "Taylor Swift"
+}
+
+
+let person = Person()
+person.observe(\Person.name, options: .new) { person, change in
+    print("I'm now called \(person.name)")
+}
+person.name = "daf"
+```
 - RXSwift Patterns  
 1- Observer  : you will create observer Sequences
 2- iterator  : and iterate over this Sequences
