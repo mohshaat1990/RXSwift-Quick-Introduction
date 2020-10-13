@@ -69,6 +69,8 @@ import RxSwift
 
 <img width="426" alt="Screen Shot 2020-10-13 at 1 30 06 PM" src="https://user-images.githubusercontent.com/11280137/95855129-39076080-0d58-11eb-9cc5-843f4a8a95c6.png">
 
+- Emit variable amount of values in a sequence and then emits a complete notification
+
 ```swift
 let episodev = "episodev"
 let episodevI = "episodevI"
