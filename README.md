@@ -65,6 +65,8 @@ import RxSwift
 
 <img width="518" alt="Screen Shot 2020-10-13 at 1 21 01 PM" src="https://user-images.githubusercontent.com/11280137/95854251-f729ea80-0d56-11eb-8c0a-b339bba853d7.png">
 
+<img width="527" alt="Screen Shot 2020-10-13 at 1 23 42 PM" src="https://user-images.githubusercontent.com/11280137/95854568-6dc6e800-0d57-11eb-97fc-3ece2e193a47.png">
+
 ```swift
 let episodev = "episodev"
 let episodevI = "episodevI"
