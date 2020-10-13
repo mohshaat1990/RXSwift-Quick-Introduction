@@ -32,6 +32,13 @@ person.name = "daf"
 1- Observer  : you will create observer Sequences
 2- iterator  : and iterate over this Sequences
 
+## When to User Rx Swift
+
+- UI components. Observe changes in UI components and respond to them. Forget about delegates.
+- TableView's and CollectionView’s data sources  
+- Information-sharing between controllers and objects (the reactive approach uses observables)
+- The network layer (use observables instead of callbacks)
+
 ## Observable 
 
 - Emits an events containing element 
