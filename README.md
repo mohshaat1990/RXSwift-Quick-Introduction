@@ -37,6 +37,18 @@ person.name = "daf"
 - Emits an events containing element 
 - Subscribers can react to each  event emitted 
 
+## Observables and Observers
+
+Two key concepts are the Observable and the Observer.
+An Observable emits notifications of change.
+An Observer subscribes to an Observable and gets notified when that Observable has changed.
+You can have multiple Observers listening to an Observable. When the Observable changes, it will notify all its Observers.
+
+# Subject
+
+- A Subject is a sort of bridge or proxy that is available in some implementations of ReactiveX that acts both as an observer and as an Observable. Because it is an observer, it can subscribe to one or more Observables, and because it is an Observable, it can pass through the items it observes by reemitting them, and it can also emit new items.
+- subjects can be both Observable (can be subscribed to), observer(add new elements)
+
 ### Observable Life Cycles 
 
 ![Screen Shot 2019-07-26 at 6 58 25 PM](https://user-images.githubusercontent.com/11280137/61968099-72c73c80-afd7-11e9-82be-3f66865f519d.png)
