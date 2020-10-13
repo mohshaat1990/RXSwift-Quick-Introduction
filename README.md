@@ -3,6 +3,7 @@
 ## Introduction
 
 - RXSWIFt is an asynchronous programming library that based on using Observables
+- synchronously, you wait for it to finish before moving on to another task. When you execute something asynchronously, you can move on to another task before it finishes.
 - Observables is sequence of data or events that you can react to such as data coming back from web service even taps by a user
 
 ![Screen Shot 2019-07-26 at 6 12 31 PM](https://user-images.githubusercontent.com/11280137/61965726-355fb080-afd1-11e9-92f9-eea25c5a9968.png)
