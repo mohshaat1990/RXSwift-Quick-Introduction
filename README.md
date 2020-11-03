@@ -709,32 +709,13 @@ Observable.of("A", "B", "C")
 ![Screen Shot 2019-07-27 at 8 27 47 PM](https://user-images.githubusercontent.com/11280137/61998211-01f25400-b0ad-11e9-97e6-1446efa85be5.png)
 
 ```swift
-example(of: "map") {
-
 let disposeBag = DisposeBag()
-
-// 1
-let formatter = NumberFormatter()
-formatter.numberStyle = .spellOut
-
-// 2
-Observable<NSNumber>.of(123, 4, 56)
-// 3
-.map {
-formatter.string(from: $0) ?? ""
-}
-.subscribe(onNext: {
+Observable.of(1, 2, 3)
+  .map { $0 * 10 }
+  .subscribe(onNext: {
 print($0)
-})
-.addDisposableTo(disposeBag)
-}
-```
-###Transforming Inner Observables
-```swift
-struct Student {
-
-var score: Variable<Int>
-}
+  })
+  .disposed(by: disposeBag)
 ```
 - Student is structure that has a score property that is a Variable. RxSwift includes a few operators in the flatMap family that allow you to reach into an observable and work with its observable properties. You’re going to learn how to use the two most common ones here.
 ```swift
