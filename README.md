@@ -747,6 +747,7 @@ student.onNext(ryan)  // will print 80
 ```
 ### flatMapLatest 
 - works just like flatMap to reach into an observable element to access its observable property, it applies a transform and projects the transformed value onto a new sequence for each element of the source observable. Those elements are flattened down into a target observable that will provide elements to the subscriber. What makes flatMapLatest different is that it will automatically switch to the latest observable and unsubscribe from the the previous one.
+- flatMap is similar to map, but it transforms element of observable to an observable of sequences.
 ```swift
 example(of: "flatMapLatest") {
 
