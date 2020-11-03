@@ -755,41 +755,29 @@ studentObservable.onNext(Student(score: 100))
 - works just like flatMap to reach into an observable element to access its observable property, it applies a transform and projects the transformed value onto a new sequence for each element of the source observable. Those elements are flattened down into a target observable that will provide elements to the subscriber. What makes flatMapLatest different is that it will automatically switch to the latest observable and unsubscribe from the the previous one.
 - flatMap is similar to map, but it transforms element of observable to an observable of sequences.
 ```swift
-example(of: "flatMapLatest") {
-
 let disposeBag = DisposeBag()
 
-let ryan = Student(score: Variable(80))
-let charlotte = Student(score: Variable(90))
 
-let student = PublishSubject<Student>()
+   struct Player {
+       var score: BehaviorRelay<String>
+   }
 
-student.asObservable()
-.flatMapLatest {
-$0.score.asObservable()
-}
-.subscribe(onNext: {
-print($0)
-})
-.addDisposableTo(disposeBag)
+   let 👦🏻 = Player(score: BehaviorRelay(value:"b1"))
+   let 👧🏼 = Player(score: BehaviorRelay(value:"g1"))
 
-student.onNext(ryan)
+   let player = BehaviorRelay(value: 👦🏻)
 
-ryan.score.value = 85
+   player.asObservable()
+       .flatMapLatest { $0.score.asObservable() } // Change flatMap to flatMapLatest and observe change in printed output
+       .subscribe(onNext: { print($0) })
+       .disposed(by: disposeBag)
 
-student.onNext(charlotte)
+   👦🏻.score.accept("b2")
 
-// 1
-ryan.score.value = 95
+   player.accept(👧🏼)
 
-charlotte.score.value = 100
-}
-/*
---- Example of: flatMapLatest ---
-80
-85
-90
-100
-*/
+   👦🏻.score.accept("b3") // Will be printed when using flatMap, but will not be printed when using flatMapLatest
+
+   👧🏼.score.accept("g2")
 ```
 - Changing ryan’s score here will have no effect. It will not be printed out. This is because flatMapLatest has already switched to the latest observable, for charlotte
