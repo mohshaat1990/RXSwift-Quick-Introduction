@@ -781,3 +781,9 @@ let disposeBag = DisposeBag()
    👧🏼.score.accept("g2")
 ```
 - Changing ryan’s score here will have no effect. It will not be printed out. This is because flatMapLatest has already switched to the latest observable, for charlotte
+
+### How to use Rx With your architecture
+
+1- how to feed your mvvm 
+2- mixed
+3- rx flow
