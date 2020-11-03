@@ -694,16 +694,11 @@ A
 example(of: "toArray") {
 
 let disposeBag = DisposeBag()
-
-// 1
 Observable.of("A", "B", "C")
-// 2
 .toArray()
-.subscribe(onNext: {
-print($0)
-})
-.addDisposableTo(disposeBag)
-}
+    .subscribe(onSuccess: { (array) in
+        print(array)
+    }).disposed(by: disposeBag)
 /*
 --- Example of: toArray ---
 ["A", "B", "C"]
