@@ -723,9 +723,9 @@ print($0)
 
 <img width="866" alt="Screen Shot 2020-11-03 at 1 26 32 PM" src="https://user-images.githubusercontent.com/11280137/97979884-9aab6f80-1dd8-11eb-86ca-6e53d494bd56.png">
 
- - map get value from stream and return another value of whatever type, result is Observable< whatever type >.flatMap get value from stream and return an Observable of whatever type.
+ - map get value from stream and return another value of whatever type.
  
- - Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence
+ - flatMap get value from stream and return an Observable of whatever type.
  
 - Student is structure that has a score property that is a Variable. RxSwift includes a few operators in the flatMap family that allow you to reach into an observable and work with its observable properties. You’re going to learn how to use the two most common ones here.
 ```swift
