@@ -723,32 +723,33 @@ print($0)
 
 <img width="866" alt="Screen Shot 2020-11-03 at 1 26 32 PM" src="https://user-images.githubusercontent.com/11280137/97979884-9aab6f80-1dd8-11eb-86ca-6e53d494bd56.png">
 
-
+ - map get value from stream and return another value of whatever type, result is Observable< whatever type >.flatMap get value from stream and return an Observable of whatever type.
+ 
+ - Projects each element of an observable sequence to an observable sequence and merges the resulting observable sequences into one observable sequence
+ 
 - Student is structure that has a score property that is a Variable. RxSwift includes a few operators in the flatMap family that allow you to reach into an observable and work with its observable properties. You’re going to learn how to use the two most common ones here.
 ```swift
-example(of: "flatMap") {
 
-let disposeBag = DisposeBag()
+struct Student {
+    let score:Int
+}
 
-// 1
-let ryan = Student(score: Variable(80))
-let charlotte = Student(score: Variable(90))
-
-// 2
+let studentObservable: PublishSubject<Student> = PublishSubject()
+let ryan = Student(score:80)
 let student = PublishSubject<Student>()
 
-// 3
-student.asObservable()
-.flatMap {
-$0.score.asObservable()
-}
-// 4
-.subscribe(onNext: {
-print($0)
+let deneme2 = student.flatMap({ val -> Observable<Student> in
+    return studentObservable.map { val in Student(score: val.score + 10) }
 })
-.addDisposableTo(disposeBag)
-}
-student.onNext(ryan)  // will print 80
+
+deneme2.subscribe(onNext: {
+    print("StudentFlatMAP: \($0.score)")
+})
+student.onNext(ryan)
+studentObservable.onNext(Student(score: 80))
+studentObservable.onNext(Student(score: 90))
+studentObservable.onNext(Student(score: 100))
+
 ```
 ### flatMapLatest 
 - works just like flatMap to reach into an observable element to access its observable property, it applies a transform and projects the transformed value onto a new sequence for each element of the source observable. Those elements are flattened down into a target observable that will provide elements to the subscriber. What makes flatMapLatest different is that it will automatically switch to the latest observable and unsubscribe from the the previous one.
