@@ -708,6 +708,8 @@ Observable.of("A", "B", "C")
 - RxSwift’s map operator works just like Swift’s standard map, except it operates on observables. In the marble diagram, map takes a closure that multiplies each element by 2.
 ![Screen Shot 2019-07-27 at 8 27 47 PM](https://user-images.githubusercontent.com/11280137/61998211-01f25400-b0ad-11e9-97e6-1446efa85be5.png)
 
+- The map-operator lets you apply a function to each element emitted by an observable. The operator will then return an observable that emits the results of the function. It looks like this on a marble diagram:
+
 ```swift
 let disposeBag = DisposeBag()
 Observable.of(1, 2, 3)
